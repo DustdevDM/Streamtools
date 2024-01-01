@@ -1,8 +1,8 @@
-name: Publish
+name: Publish docker image for API project
 
 on:
   workflow_run:
-    workflows: ["Build .NET"]
+    workflows: ["Build-Test API Project"]
     branches: [main]
     types:
       - completed
