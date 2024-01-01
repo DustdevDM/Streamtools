@@ -1,0 +1,33 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build-Test Frontend
+
+on:
+  push:
+    branches: [ "main", "development" ]
+    paths:
+      - 'Splatoon-WLRate/**'
+  pull_request:
+    branches: [ "main", "development" ]
+    paths:
+      - 'Splatoon-WLRate/**'
+      - '.github/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup NodeJS
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.18.x'
+    - name: Install dependecies
+      working-directory: ./Splatoon-WLRate
+      run: npm i
+    - name: Build frontend
+      working-directory: ./Splatoon-WLRate
+      run: npm run build

@@ -1,8 +1,8 @@
-name: Publish API
+name: Publish Frontend
 
 on:
   workflow_run:
-    workflows: ["Build-Test API"]
+    workflows: ["Build-Test Frontend"]
     branches: [main]
     types:
       - completed
@@ -30,6 +30,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: "{{defaultContext}}:StreamTools API"
+          context: "{{defaultContext}}:Splatoon-WLRate"
           push: true
-          tags: ghcr.io/dustdevdm/streamtools-api:latest
+          tags: ghcr.io/dustdevdm/streamtools-frontend:latest
