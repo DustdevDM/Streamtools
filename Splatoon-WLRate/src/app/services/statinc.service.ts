@@ -12,7 +12,7 @@ export class StatIncService {
   public getWinRateData(): Observable<WinRateResponse> {
     return new Observable((observer) => {
       axios
-        .get('http://localhost:5047/Splatoon/WLStats')
+        .get('https://streamtools.dustdev.de/api/Splatoon/WLStats')
         .then((res) => {
           if (res.status == 204) {
             observer.next(new WinRateResponse(false));
