@@ -1,0 +1,22 @@
+.main {
+  background: url("../../assets/plus.svg") #2b2b2b;
+  background-size: 60px;
+  border-radius: 20px;
+
+  text-align: center;
+  .header1 {
+    color: #e8e8e8;
+    font-size: 34px;
+    margin: 0 3px;
+  }
+
+  .percentage {
+    color: #00f48e;
+    font-size: 66px;
+  }
+
+  .detailed {
+    color: #00f48e;
+    font-size: 30px;
+  }
+}
