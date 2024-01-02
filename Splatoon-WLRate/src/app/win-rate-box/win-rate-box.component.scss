@@ -19,4 +19,24 @@
     color: #00f48e;
     font-size: 30px;
   }
+
+  // animations
+
+  @keyframes numberFade {
+    from {
+      opacity: 100%;
+    }
+
+    50% {
+      opacity: 0%;
+    }
+
+    to {
+      opacity: 100%;
+    }
+  }
+
+  .fade {
+    animation: numberFade 2s ease-in-out;
+  }
 }
