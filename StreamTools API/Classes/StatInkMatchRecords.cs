@@ -13,7 +13,7 @@ namespace StreamTools_API.Classes
         /// <summary>
         /// Time in unix-seconds
         /// </summary>
-        public int Time { get; set; }
+        public int Timedasd { get; set; }
 
         /// <summary>
         /// Datetime object
@@ -82,7 +82,7 @@ namespace StreamTools_API.Classes
     {
         /// <inheritdoc/>
         [JsonProperty("time")]
-        public int Time { get; set; }
+        public int Timedasd { get; set; }
 
         /// <inheritdoc/>
         [JsonProperty("iso8601")]
