@@ -1,5 +1,5 @@
 .main {
-  background: url("../../assets/plus.svg") #2b2b2b;
+  background: url("../../assets/plus.svg") #2b2b2bec;
   background-size: 50px;
   border-radius: 20px;
 
@@ -18,5 +18,25 @@
   .detailed {
     color: #00f48e;
     font-size: 30px;
+  }
+
+  // animations
+
+  @keyframes numberFade {
+    from {
+      opacity: 100%;
+    }
+
+    50% {
+      opacity: 0%;
+    }
+
+    to {
+      opacity: 100%;
+    }
+  }
+
+  .fade {
+    animation: numberFade 2s ease-in-out;
   }
 }
