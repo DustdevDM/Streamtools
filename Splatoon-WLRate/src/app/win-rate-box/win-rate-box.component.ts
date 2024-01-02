@@ -48,6 +48,6 @@ export class WinRateBoxComponent {
 
     setTimeout(() => {
       this.fetchStats();
-    }, 10000);
+    }, 60000);
   }
 }
