@@ -34,7 +34,7 @@ namespace StreamTools_API.Controllers
                 return this.StatusCode(500);
             }
 
-            statincMatchRecords = statincMatchRecords.Where(m => m.Result != MatchResult.Draw && m.Result != MatchResult.Exempted_lose).Where(m => m.StartDate?.Iso8601 > DateTime.Now.AddHours(-24)).ToList();
+            statincMatchRecords = statincMatchRecords.Where(m => m.StartDate?.Iso8601 > DateTime.Now.AddHours(-24) && m.GoodGuys.Any(p => p.IsDisconnected) == false && m.BadGuys.Any(p => p.IsDisconnected) == false).ToList();
             double all = statincMatchRecords.Count();
             double wins = statincMatchRecords.Where(m => m.Result == MatchResult.Win).ToList().Count;
             double percentage = Math.Round((wins / all) * 100, 2);

@@ -39,7 +39,7 @@ namespace StreamTools_API.Classes
         Lose,
 
         /// <summary>
-        /// Result type when a match has been lost due to disconnects in an unranked match
+        /// Result type when a match has been stopped early due to disconnects
         /// </summary>
         [JsonProperty("draw")]
         Draw,
@@ -73,6 +73,90 @@ namespace StreamTools_API.Classes
         /// </summary>
         [JsonProperty("start_at")]
         public StartAt? StartDate { get; set; }
+
+        /// <summary>
+        /// Players of the own team
+        /// </summary>
+        [JsonProperty("our_team_members")]
+        public required List<Player> GoodGuys { get; set; }
+
+        /// <summary>
+        /// Players of the opposing team
+        /// </summary>
+        [JsonProperty("their_team_members")]
+        public required List<Player> BadGuys { get; set; }
+    }
+
+    /// <summary>
+    /// Player Object
+    /// </summary>
+    public class Player
+    {
+        /// <summary>
+        /// Is the the entry the Player itself
+        /// </summary>
+        [JsonProperty("me")]
+        public bool? IsMe { get; set; }
+
+        /// <summary>
+        /// Top ranking within the team
+        /// </summary>
+        [JsonProperty("rank_in_team")]
+        public int? TeamRank { get; set; }
+
+        /// <summary>
+        /// Name of the Player
+        /// </summary>
+        [JsonProperty("name")]
+        public string? Name { get; set; }
+
+        /// <summary>
+        /// Nicht eindeutige Tag Numer
+        /// </summary>
+        [JsonProperty("number")]
+        public string? Diskriminator { get; set; }
+
+        /// <summary>
+        /// Title of the Splashtag Banner
+        /// </summary>
+        [JsonProperty("splashtag_title")]
+        public string? SplashtagTitle { get; set; }
+
+        /// <summary>
+        /// Number of times the player killed someone in the match
+        /// </summary>
+        [JsonProperty("kill")]
+        public int? KillCount { get; set; }
+
+        /// <summary>
+        /// Number of times the player supported with a kill in the match
+        /// </summary>
+        [JsonProperty("assist")]
+        public int? AssistCount { get; set; }
+
+        /// <summary>
+        /// Number of times the player died in the match
+        /// </summary>
+        [JsonProperty("death")]
+        public int? DeathCount { get; set; }
+
+        /// <summary>
+        /// Number of times the player uesed his special in the match
+        /// </summary>
+        [JsonProperty("special")]
+        public int? SpecialUsedCount { get; set; }
+
+        /// <summary>
+        /// Number of terrains colored by the player
+        /// </summary>
+        [JsonProperty("inked")]
+        public int? InkedPoints { get; set; }
+
+        /// <summary>
+        /// Indicates if the player disconnected during the match
+        /// </summary>
+        [JsonProperty("disconnected")]
+        public bool IsDisconnected { get; set; }
     }
 
     /// <summary>
