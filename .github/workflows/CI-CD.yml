@@ -7,9 +7,36 @@ on:
     branches: [ "main", "development" ]
 
 jobs:
+
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    name: Detect changes
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          backend:
+            - 'StreamTools API/**'
+            - '.github/workflows/**'
+          frontend:
+            - 'Splatoon-WLRate/**'
+            - '.github/workflows/**'
+
   build-api:
     name: API Build-Test
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
 
     steps:
     - uses: actions/checkout@v3
@@ -25,6 +52,8 @@ jobs:
   build-frontend:
     name: Fronend Build-Test
     runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
 
     steps:
     - uses: actions/checkout@v3
@@ -41,7 +70,7 @@ jobs:
 
   publish-api:
     if: endsWith(github.ref, 'main')
-    needs: [build-api, build-frontend]
+    needs: build-api
     runs-on: ubuntu-latest
     name: API Docker Publish
     steps:
@@ -68,7 +97,7 @@ jobs:
 
   publish-frontend:
     if: endsWith(github.ref, 'main')
-    needs: [build-api, build-frontend]
+    needs: build-frontend
     runs-on: ubuntu-latest
     name: Frontend Docker Publish
     steps:
