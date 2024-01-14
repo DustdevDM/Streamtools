@@ -1,7 +1,17 @@
 <div *ngIf="Request" class="main">
   <p class="header1">Splatoon 3 24H Win Rate</p>
-  <p class="percentage{{ Fade ? ' fade' : '' }}">{{ Request.WinPercentage }}</p>
-  <p class="detailed{{ Fade ? ' fade' : '' }}">
-    {{ Request.WonMatches }} matches
-  </p>
+  <div class="{{ Fade ? 'fade' : '' }}">
+    <p
+      [ngStyle]="{ color: Request.SplatfestColor ?? '#00f48e' }"
+      class="percentage"
+    >
+      {{ Request.WinPercentage }}
+    </p>
+    <p
+      [ngStyle]="{ color: Request.SplatfestColor ?? '#00f48e' }"
+      class="detailed"
+    >
+      {{ Request.WonMatches }} matches
+    </p>
+  </div>
 </div>

@@ -63,16 +63,22 @@ namespace StreamTools_API.Classes
         public string? Id { get; set; }
 
         /// <summary>
-        /// Result of a splatoon match
+        /// Instance of <see cref="LobbyData"/>
+        /// </summary>
+        [JsonProperty("lobby")]
+        public required LobbyData LobbyData { get; set; }
+
+        /// <summary>
+        /// Instance of <see cref="MatchResult"/>
         /// </summary>
         [JsonProperty("result")]
-        public MatchResult? Result { get; set; }
+        public required MatchResult Result { get; set; }
 
         /// <summary>
         /// Startdate of a splatoon match
         /// </summary>
         [JsonProperty("start_at")]
-        public StartAt? StartDate { get; set; }
+        public required StartAt StartDate { get; set; }
 
         /// <summary>
         /// Players of the own team
@@ -85,10 +91,16 @@ namespace StreamTools_API.Classes
         /// </summary>
         [JsonProperty("their_team_members")]
         public required List<Player> BadGuys { get; set; }
+
+        /// <summary>
+        /// Teamcolor of the own team
+        /// </summary>
+        [JsonProperty("our_team_color")]
+        public required string GoodGuysTeamColor { get; set; }
     }
 
     /// <summary>
-    /// Player Object
+    /// Player object
     /// </summary>
     public class Player
     {
@@ -157,6 +169,18 @@ namespace StreamTools_API.Classes
         /// </summary>
         [JsonProperty("disconnected")]
         public bool IsDisconnected { get; set; }
+    }
+
+    /// <summary>
+    /// Basic lobby and matchmaking information of a match
+    /// </summary>
+    public class LobbyData
+    {
+        /// <summary>
+        /// The lobbytype of a match
+        /// </summary>
+        [JsonProperty("key")]
+        public required string Key { get; set; }
     }
 
     /// <summary>

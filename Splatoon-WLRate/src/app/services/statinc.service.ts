@@ -21,7 +21,8 @@ export class StatIncService {
               new WinRateResponse(
                 true,
                 res.data.winPercentage,
-                res.data.wonMatches
+                res.data.wonMatches,
+                res.data.splatfestColor
               )
             );
           }
