@@ -39,12 +39,18 @@ namespace StreamTools_API.Controllers
             double wins = statincMatchRecords.Where(m => m.Result == MatchResult.Win).ToList().Count;
             double percentage = Math.Round((wins / all) * 100, 2);
 
+            string? splatfestColor = null;
+            if (statincMatchRecords.First().LobbyData.Key.Contains("splatfest", StringComparison.CurrentCultureIgnoreCase))
+            {
+                splatfestColor = $"#{statincMatchRecords.First().GoodGuysTeamColor}";
+            }
+
             if (all == 0)
             {
                 return this.NoContent();
             }
 
-            return new WLRateResponse($"{percentage}%", $"{wins}/{statincMatchRecords.Count}");
+            return new WLRateResponse($"{percentage}%", $"{wins}/{statincMatchRecords.Count}", splatfestColor);
         }
     }
 }
