@@ -22,12 +22,15 @@ namespace OutBot.Classes
     public class globalSettings
     {
         [JsonPropertyName("guild")]
-        public required string GuildId;
+        public required ulong GuildId;
     }
 
     public class welcomeMessage
     {
         [JsonPropertyName("channel")]
-        public required string ChannelId;
+        public required ulong ChannelId;
+
+        [JsonPropertyName("enabled")]
+        public required bool IsEnabled;
     }
 }

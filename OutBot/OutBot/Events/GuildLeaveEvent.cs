@@ -1,27 +1,48 @@
-﻿using Discord;
-using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Discord.WebSocket;
+using OutBot.Classes.Exceptions;
 
 namespace OutBot.Events
 {
     public class GuildLeaveEvent
     {
+        private readonly ulong configuredGuildId;
+        private readonly ulong configuredChannelId;
+
+        public GuildLeaveEvent(ConfigManager configManager)
+        {
+            this.configuredGuildId = configManager.Config.GlobalSettings.GuildId;
+            this.configuredChannelId = configManager.Config.WelcomeMessage.ChannelId;
+        }
+
         public Task HandleLeaveEvent(SocketGuild guild, SocketUser user)
         {
-            guild.TextChannels.Where(x => x.Id == 1231643199605440572).First().SendMessageAsync($"`{user.Username}` hat {guild.Name} verlassen!");
+            if (guild.Id !=  this.configuredGuildId)
+                return Task.CompletedTask;
+
+            SocketTextChannel textChannel = this.getTextChannel(guild);
+
+            textChannel.SendMessageAsync($"`{user.Username}` hat {guild.Name} verlassen!");
 
             return Task.CompletedTask;
         }
 
         public Task HandleBannEvent(SocketUser user, SocketGuild guild)
         {
-            guild.TextChannels.Where(x => x.Id == 1231643199605440572).First().SendMessageAsync($"`{user.Username}` wurde aus {guild.Name} gebannt!");
+            if (guild.Id != this.configuredGuildId)
+                return Task.CompletedTask;
+
+            SocketTextChannel textChannel = this.getTextChannel(guild);
+
+
+            textChannel.SendMessageAsync($"`{user.Username}` wurde aus {guild.Name} gebannt!");
 
             return Task.CompletedTask;
+        }
+
+        private SocketTextChannel getTextChannel(SocketGuild guild)
+        {
+            SocketTextChannel textChannel = guild.TextChannels.Where(channel => channel.Id == this.configuredChannelId).FirstOrDefault() ?? throw new ConfigurationException("Unable to find the text channel for welcome message in the configurated guild");
+            return textChannel;
         }
     }
 }
