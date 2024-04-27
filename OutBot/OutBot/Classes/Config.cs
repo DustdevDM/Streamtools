@@ -1,15 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace OutBot.Classes
 {
     public class Config
     {
-        [JsonPropertyName("discordToken")]
+        [JsonProperty("discordToken")]
         public required string DiscordToken;
+
+        [JsonProperty("globalSettings")]
+        public required globalSettings GlobalSettings;
+
+        [JsonProperty("welcomeMessage")]
+        public required welcomeMessage WelcomeMessage;
+    }
+    
+    public class globalSettings
+    {
+        [JsonProperty("guild")]
+        public required ulong GuildId;
+    }
+
+    public class welcomeMessage
+    {
+        [JsonProperty("enabled")]
+        public required bool IsEnabled;
+
+        [JsonProperty("channel")]
+        public required ulong ChannelId;
     }
 }

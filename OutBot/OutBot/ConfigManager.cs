@@ -20,8 +20,6 @@ namespace OutBot
 
         private Config getConfig()
         {
-            // var token = JsonConvert.DeserializeObject<AConfigurationClass>(File.ReadAllText("config.json")).Token;
-
             string filePath = this.getConfigPath();
             string fileText = File.ReadAllText(filePath);
 
@@ -40,7 +38,6 @@ namespace OutBot
             else if (File.Exists("appsettings.json"))
             {
                 return Path.GetFullPath("appsettings.json");
-
             }
             else
             {
