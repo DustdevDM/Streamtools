@@ -1,5 +1,6 @@
 ﻿using Discord.WebSocket;
 using OutBot.Classes.Exceptions;
+using OutBot.Services;
 
 namespace OutBot.Events
 {
@@ -8,7 +9,7 @@ namespace OutBot.Events
         private readonly ulong configuredGuildId;
         private readonly ulong configuredChannelId;
 
-        public WelcomeEvent(ConfigManager configManager)
+        public WelcomeEvent(ConfigService configManager)
         {
             this.configuredGuildId = configManager.Config.GlobalSettings.GuildId;
             this.configuredChannelId = configManager.Config.WelcomeMessage.ChannelId;

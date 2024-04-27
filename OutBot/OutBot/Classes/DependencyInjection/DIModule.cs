@@ -1,6 +1,7 @@
 ﻿using Discord.WebSocket;
 using Ninject.Activation;
 using Ninject.Modules;
+using OutBot.Services;
 
 namespace OutBot.Classes.DependencyInjection
 {
@@ -8,7 +9,7 @@ namespace OutBot.Classes.DependencyInjection
     {
         public override void Load()
         {
-            Bind<ConfigManager>().ToSelf();
+            Bind<ConfigService>().ToSelf();
             Bind<Bot>().ToSelf();
             Bind<DiscordSocketClient>().ToSelf().InSingletonScope();
             Bind<DiscordSocketConfig>().ToMethod((IContext context) => 
