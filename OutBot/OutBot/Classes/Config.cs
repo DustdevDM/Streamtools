@@ -11,5 +11,23 @@ namespace OutBot.Classes
     {
         [JsonPropertyName("discordToken")]
         public required string DiscordToken;
+
+        [JsonPropertyName("globalSettings")]
+        public required globalSettings GlobalSettings;
+
+        [JsonPropertyName("welcomeMessage")]
+        public required welcomeMessage WelcomeMessage;
+    }
+    
+    public class globalSettings
+    {
+        [JsonPropertyName("guild")]
+        public required string GuildId;
+    }
+
+    public class welcomeMessage
+    {
+        [JsonPropertyName("channel")]
+        public required string ChannelId;
     }
 }
