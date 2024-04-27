@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using OutBot.Classes;
 
-namespace OutBot
+namespace OutBot.Services
 {
-    public class ConfigManager
+    public class ConfigService
     {
         private Config? configcache;
 
@@ -11,8 +11,9 @@ namespace OutBot
         {
             get
             {
-                if (configcache == null) {
-                    return this.getConfig();
+                if (configcache == null)
+                {
+                    return getConfig();
                 }
                 else return configcache;
             }
@@ -20,12 +21,12 @@ namespace OutBot
 
         private Config getConfig()
         {
-            string filePath = this.getConfigPath();
+            string filePath = getConfigPath();
             string fileText = File.ReadAllText(filePath);
 
             Config config = JsonConvert.DeserializeObject<Config>(fileText) ?? throw new JsonException("Unable to parse config file");
 
-            this.configcache = config;
+            configcache = config;
             return config;
         }
 

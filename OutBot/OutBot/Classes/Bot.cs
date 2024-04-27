@@ -1,15 +1,16 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using OutBot.Services;
 
-namespace OutBot
+namespace OutBot.Classes
 {
     public class Bot
     {
         private readonly DiscordSocketClient discordSocketClient;
-        private readonly ConfigManager configManager;
-        private readonly EventManager eventManager;
+        private readonly ConfigService configManager;
+        private readonly DiscordEventService eventManager;
 
-        public Bot(DiscordSocketClient discordSocketClient, ConfigManager configManager, EventManager eventManager)
+        public Bot(DiscordSocketClient discordSocketClient, ConfigService configManager, DiscordEventService eventManager)
         {
             this.discordSocketClient = discordSocketClient;
             this.configManager = configManager;

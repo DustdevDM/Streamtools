@@ -1,5 +1,5 @@
 ﻿using Ninject;
-using OutBot;
+using OutBot.Classes;
 using System.Reflection;
 
 StandardKernel kernel = new();
