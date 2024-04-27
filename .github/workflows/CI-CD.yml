@@ -2,12 +2,11 @@ name: CI/CD
 
 on:
   push:
-    branches: [ "main", "development" ]
+    branches: ["main", "development"]
   pull_request:
-    branches: [ "main", "development" ]
+    branches: ["main", "development"]
 
 jobs:
-
   # JOB to run change detection
   changes:
     runs-on: ubuntu-latest
@@ -19,19 +18,23 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend: ${{ steps.filter.outputs.frontend }}
+      discord-bot: ${{ steps.filter.outputs.discord-bot }}
     steps:
-    - uses: actions/checkout@v4
-    # For pull requests it's not necessary to checkout the code
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          backend:
-            - 'StreamTools API/**'
-            - '.github/workflows/**'
-          frontend:
-            - 'Splatoon-WLRate/**'
-            - '.github/workflows/**'
+      - uses: actions/checkout@v4
+      # For pull requests it's not necessary to checkout the code
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'StreamTools API/**'
+              - '.github/workflows/**'
+            frontend:
+              - 'Splatoon-WLRate/**'
+              - '.github/workflows/**'
+            discord-bot:
+              - 'OutBot/**'
+              - '.github/workflows/**'
 
   build-api:
     name: API Build-Test
@@ -40,16 +43,33 @@ jobs:
     if: ${{ needs.changes.outputs.backend == 'true' }}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore "StreamTools API/StreamTools API.sln"
-    - name: Build
-      run: dotnet build "StreamTools API/StreamTools API.sln" --no-restore -warnaserror
-  
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore "StreamTools API/StreamTools API.sln"
+      - name: Build
+        run: dotnet build "StreamTools API/StreamTools API.sln" --no-restore -warnaserror
+
+  build-discord-bot:
+    name: Discord Bot Build-Test
+    runs-on: ubuntu-latest
+    needs: changes
+    if: ${{ needs.changes.outputs.discord-bot == 'true' }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore "OutBot/OutBot.sln"
+      - name: Build
+        run: dotnet build "OutBot/OutBot.sln" --no-restore -warnaserror
+
   build-frontend:
     name: Fronend Build-Test
     runs-on: ubuntu-latest
@@ -57,17 +77,17 @@ jobs:
     if: ${{ needs.changes.outputs.frontend == 'true' }}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup NodeJS
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.x'
-    - name: Install dependecies
-      working-directory: ./Splatoon-WLRate
-      run: npm i
-    - name: Build
-      working-directory: ./Splatoon-WLRate
-      run: npm run build
+      - uses: actions/checkout@v4
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.x"
+      - name: Install dependecies
+        working-directory: ./Splatoon-WLRate
+        run: npm i
+      - name: Build
+        working-directory: ./Splatoon-WLRate
+        run: npm run build
 
   publish-api:
     if: endsWith(github.ref, 'main')
@@ -75,26 +95,45 @@ jobs:
     runs-on: ubuntu-latest
     name: API Docker Publish
     steps:
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      -
-        name: Login to Github Registry
+      - name: Login to Github Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: "{{defaultContext}}:StreamTools API"
           push: true
           tags: ghcr.io/dustdevdm/streamtools-api:latest
+
+  publish-discord-bot:
+    if: endsWith(github.ref, 'main')
+    needs: build-discord-bot
+    runs-on: ubuntu-latest
+    name: Discord Bot Docker Publish
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Github Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: "{{defaultContext}}:OutBot"
+          push: true
+          tags: ghcr.io/dustdevdm/outbot:latest
 
   publish-frontend:
     if: endsWith(github.ref, 'main')
@@ -102,24 +141,19 @@ jobs:
     runs-on: ubuntu-latest
     name: Frontend Docker Publish
     steps:
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      -
-        name: Login to Github Registry
+      - name: Login to Github Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: "{{defaultContext}}:Splatoon-WLRate"
           push: true
           tags: ghcr.io/dustdevdm/streamtools-frontend:latest
-
