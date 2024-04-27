@@ -25,6 +25,8 @@ namespace OutBot.Classes
             await this.discordSocketClient.LoginAsync(TokenType.Bot, this.configManager.Config.DiscordToken);
             await this.discordSocketClient.StartAsync();
 
+            await this.discordSocketClient.SetCustomStatusAsync($"running {System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name} v.{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Version}");
+
             await Task.Delay(-1);
         }
 

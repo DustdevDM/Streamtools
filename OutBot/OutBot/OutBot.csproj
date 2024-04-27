@@ -8,6 +8,10 @@
     <UserSecretsId>74114ee8-c9d7-427d-989c-23670499fa8f</UserSecretsId>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="3.14.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
