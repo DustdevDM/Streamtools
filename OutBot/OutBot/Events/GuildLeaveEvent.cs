@@ -1,6 +1,6 @@
 ﻿using Discord.WebSocket;
 using OutBot.Classes.Exceptions;
-using OutBot.Services;
+using OutBot.Classes.Services;
 
 namespace OutBot.Events
 {

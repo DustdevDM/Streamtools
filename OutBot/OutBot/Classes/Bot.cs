@@ -1,6 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using OutBot.Services;
+using OutBot.Classes.Services;
 
 namespace OutBot.Classes
 {
