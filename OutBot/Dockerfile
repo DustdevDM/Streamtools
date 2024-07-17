@@ -10,6 +10,10 @@ RUN dotnet build "OutBot.sln" -c Release
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+#install required font
+COPY ./OutBot/Resources/Rubik-Bold.ttf /usr/share/fonts/
+
 WORKDIR /App
 COPY --from=build-env /App/OutBot/bin/Release/net8.0 .
 ENTRYPOINT ["dotnet", "OutBot.dll"]
