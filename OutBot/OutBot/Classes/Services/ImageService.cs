@@ -63,8 +63,6 @@ namespace OutBot.Classes.Services
                 if (font.Size == 1) break;
             } while (textSize.Width > textArea.Width && font.Size > 1);
 
-
-            // Text positionieren
             var textLocation = new PointF(
                 textArea.X + (textArea.Width - textSize.Width) / 2,
                 textArea.Y + (textArea.Height - textSize.Height) / 2
@@ -86,7 +84,6 @@ namespace OutBot.Classes.Services
                 Mode = ResizeMode.Crop
             }),
             cornerRadius);
-
         }
 
         /// <src>https://github.com/SixLabors/Samples/blob/24326f576f712b190b8f05ab230a5c9b95d90fcf/ImageSharp/AvatarWithRoundedCorner/Program.cs</src>
@@ -98,7 +95,6 @@ namespace OutBot.Classes.Services
             context.SetGraphicsOptions(new GraphicsOptions()
             {
                 Antialias = true,
-
                 AlphaCompositionMode = PixelAlphaCompositionMode.DestOut
             });
 

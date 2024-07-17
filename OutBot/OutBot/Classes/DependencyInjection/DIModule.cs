@@ -7,11 +7,8 @@ namespace OutBot.Classes.DependencyInjection
 {
     public class DIModule : NinjectModule
     {
-
         public override void Load()
         {
-            Bind<ConfigService>().ToSelf();
-            Bind<Bot>().ToSelf();
             Bind<DiscordSocketClient>().ToSelf().InSingletonScope();
             Bind<DiscordSocketConfig>().ToConstant(this.createBotConfig());
         }
