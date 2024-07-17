@@ -24,8 +24,15 @@ namespace OutBot.Events
 
             SocketTextChannel textChannel = this.getTextChannel(user.Guild);
 
+            try
+            {
             var welcomeImage = await this.imageService.GenerateWelcomeImage(user);
             await textChannel.SendFileAsync(welcomeImage, $"welcome_{user.Id}.png", $"<@{user.Id}>");
+            }
+            catch
+            {
+                await textChannel.SendMessageAsync($"<@{user.Id}> ist {user.Guild.Name} beigetreten!");
+            }
 
             return;
         }
