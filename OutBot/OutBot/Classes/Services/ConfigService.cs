@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
-using OutBot.Classes;
 
-namespace OutBot.Services
+namespace OutBot.Classes.Services
 {
     public class ConfigService
     {

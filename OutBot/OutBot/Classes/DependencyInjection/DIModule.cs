@@ -1,7 +1,7 @@
-﻿using Discord.WebSocket;
-using Ninject.Activation;
+﻿using Discord;
+using Discord.WebSocket;
 using Ninject.Modules;
-using OutBot.Services;
+using OutBot.Classes.Services;
 
 namespace OutBot.Classes.DependencyInjection
 {
@@ -9,17 +9,16 @@ namespace OutBot.Classes.DependencyInjection
     {
         public override void Load()
         {
-            Bind<ConfigService>().ToSelf();
-            Bind<Bot>().ToSelf();
             Bind<DiscordSocketClient>().ToSelf().InSingletonScope();
-            Bind<DiscordSocketConfig>().ToMethod((IContext context) => 
+            Bind<DiscordSocketConfig>().ToConstant(this.createBotConfig());
+        }
+
+        private DiscordSocketConfig createBotConfig()
+        {
+            return new DiscordSocketConfig
             {
-                return new DiscordSocketConfig()
-                {
-                    GatewayIntents = Discord.GatewayIntents.AllUnprivileged | Discord.GatewayIntents.GuildMembers
-                }; 
-                
-            });
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers
+            };
         }
     }
 }

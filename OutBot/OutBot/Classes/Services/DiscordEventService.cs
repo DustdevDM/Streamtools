@@ -1,10 +1,8 @@
-﻿using Discord;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using OutBot.Events;
-using System.Diagnostics;
 
 
-namespace OutBot.Services
+namespace OutBot.Classes.Services
 {
     public class DiscordEventService
     {
