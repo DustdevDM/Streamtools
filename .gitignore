@@ -441,3 +441,4 @@ obj/
 # End of https://www.toptal.com/developers/gitignore/api/angular,dotnetcore,csharp
 
 dev.appsettings.json
+appsettings.Development.json
