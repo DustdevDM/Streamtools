@@ -4,46 +4,66 @@ using OutBot.Classes.Services;
 
 namespace OutBot.Events
 {
-    public class GuildLeaveEvent
+    /// <summary>
+    /// Event handler to notify that members are leaving the configured guild
+    /// </summary>
+    internal abstract class GuildLeaveEvent
     {
         private readonly ulong configuredGuildId;
         private readonly ulong configuredChannelId;
 
-        public GuildLeaveEvent(ConfigService configManager)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GuildLeaveEvent"/> class.
+        /// </summary>
+        /// <param name="configManager">Instance of <see cref="ConfigService"/></param>
+        internal GuildLeaveEvent(ConfigService configManager)
         {
             this.configuredGuildId = configManager.Config.GlobalSettings.GuildId;
             this.configuredChannelId = configManager.Config.WelcomeMessage.ChannelId;
         }
 
-        public Task HandleLeaveEvent(SocketGuild guild, SocketUser user)
+        /// <summary>
+        /// Event delegate to handle leaving guild users
+        /// </summary>
+        /// <param name="guild"><see cref="SocketGuild"/> that the user left</param>
+        /// <param name="user"><see cref="SocketUser"/> that left the guild</param>
+        /// <returns><see cref="Task"/> representing the asynchronous operation</returns>
+        /// <exception cref="ConfigurationException">Thrown if the configured text channel for welcome messages
+        /// could not be found</exception>
+        internal Task HandleLeaveEvent(SocketGuild guild, SocketUser user)
         {
-            if (guild.Id !=  this.configuredGuildId)
+            if (guild.Id != this.configuredGuildId)
                 return Task.CompletedTask;
 
-            SocketTextChannel textChannel = this.getTextChannel(guild);
+            SocketTextChannel textChannel =
+                guild.TextChannels.FirstOrDefault(channel => channel.Id == this.configuredChannelId) ??
+                throw new ConfigurationException("Unable to find configured text channel for the welcome message");
 
             textChannel.SendMessageAsync($"`{user.Username}` hat {guild.Name} verlassen!");
 
             return Task.CompletedTask;
         }
 
-        public Task HandleBannEvent(SocketUser user, SocketGuild guild)
+        /// <summary>
+        /// Event delegate to handle banned guild users
+        /// </summary>
+        /// <param name="guild"><see cref="SocketGuild"/> that the user was banned from</param>
+        /// <param name="user"><see cref="SocketUser"/> that was banned form the guild</param>
+        /// <returns><see cref="Task"/> representing the asynchronous operation</returns
+        /// <exception cref="ConfigurationException">Thrown if the configured text channel for welcome messages
+        /// could not be found</exception>
+        internal Task HandleBannEvent(SocketUser user, SocketGuild guild)
         {
             if (guild.Id != this.configuredGuildId)
                 return Task.CompletedTask;
 
-            SocketTextChannel textChannel = this.getTextChannel(guild);
-
+            SocketTextChannel textChannel =
+                guild.TextChannels.FirstOrDefault(channel => channel.Id == this.configuredChannelId) ??
+                throw new ConfigurationException("Unable to find configured text channel for the welcome message");
 
             textChannel.SendMessageAsync($"`{user.Username}` wurde aus {guild.Name} gebannt!");
 
             return Task.CompletedTask;
-        }
-
-        private SocketTextChannel getTextChannel(SocketGuild guild)
-        {
-            SocketTextChannel textChannel = guild.TextChannels.Where(channel => channel.Id == this.configuredChannelId).FirstOrDefault() ?? throw new ConfigurationException("Unable to find the text channel for welcome message in the configurated guild");
-            return textChannel;
         }
     }
 }

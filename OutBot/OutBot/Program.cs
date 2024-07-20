@@ -2,8 +2,10 @@
 using OutBot.Classes;
 using System.Reflection;
 
-StandardKernel kernel = new();
+StandardKernel kernel = new ();
+
 kernel.Load(Assembly.GetExecutingAssembly());
 
 Bot bot = kernel.Get<Bot>();
-await bot.runBot();
+
+await bot.RunBot();

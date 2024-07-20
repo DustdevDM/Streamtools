@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OutBot.Classes.Exceptions
+﻿namespace OutBot.Classes.Exceptions
 {
-    public class ConfigurationException : OutBotException
+    /// <summary>
+    /// <see cref="Exception"/> that is thrown when a configuration value is missing
+    /// or containing invalid or illegal data
+    /// </summary>
+    internal class ConfigurationException : OutBotException
     {
-        public ConfigurationException(string message) : base(message)
-        { }
+        /// <inheritdoc cref="Exception"/>
+        internal ConfigurationException(string message)
+            : base(message)
+        {
+        }
 
-        public ConfigurationException(string message, Exception innerException) : base(message, innerException)
-        { }
+        /// <inheritdoc cref="Exception"/>
+        internal ConfigurationException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }
