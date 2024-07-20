@@ -1,23 +1,28 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using Ninject.Modules;
-using OutBot.Classes.Services;
 
 namespace OutBot.Classes.DependencyInjection
 {
-    public class DIModule : NinjectModule
+    /// <summary>
+    /// Class to configure special cases in the dependency injection
+    /// </summary>
+    internal class DiModule : NinjectModule
     {
+        /// <summary>
+        /// Loads dependency injection bindings
+        /// </summary>
         public override void Load()
         {
-            Bind<DiscordSocketClient>().ToSelf().InSingletonScope();
-            Bind<DiscordSocketConfig>().ToConstant(this.createBotConfig());
+            this.Bind<DiscordSocketClient>().ToSelf().InSingletonScope();
+            this.Bind<DiscordSocketConfig>().ToConstant(CreateBotConfig());
         }
 
-        private DiscordSocketConfig createBotConfig()
+        private static DiscordSocketConfig CreateBotConfig()
         {
             return new DiscordSocketConfig
             {
-                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers,
             };
         }
     }

@@ -4,13 +4,19 @@ using OutBot.Classes.Services;
 
 namespace OutBot.Classes
 {
-    public class Bot
+    internal abstract class Bot
     {
         private readonly DiscordSocketClient discordSocketClient;
         private readonly ConfigService configManager;
         private readonly DiscordEventService eventManager;
 
-        public Bot(DiscordSocketClient discordSocketClient, ConfigService configManager, DiscordEventService eventManager)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bot"/> class.
+        /// </summary>
+        /// <param name="discordSocketClient">Instance of <see cref="discordSocketClient"/></param>
+        /// <param name="configManager">Instance of <see cref="ConfigService"/></param>
+        /// <param name="eventManager">Instance of <see cref="DiscordEventService"/></param>
+        internal Bot(DiscordSocketClient discordSocketClient, ConfigService configManager, DiscordEventService eventManager)
         {
             this.discordSocketClient = discordSocketClient;
             this.configManager = configManager;
@@ -18,9 +24,13 @@ namespace OutBot.Classes
             this.discordSocketClient.Log += Log;
         }
 
-        public async Task runBot() 
+        /// <summary>
+        /// Executes the discord bot
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        internal async Task RunBot()
         {
-            this.eventManager.registerEvents();
+            this.eventManager.RegisterEvents();
 
             await this.discordSocketClient.LoginAsync(TokenType.Bot, this.configManager.Config.DiscordToken);
             await this.discordSocketClient.StartAsync();

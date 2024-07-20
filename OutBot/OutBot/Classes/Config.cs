@@ -1,31 +1,60 @@
-﻿using Newtonsoft.Json;
+﻿#pragma warning disable SA1402
+using Newtonsoft.Json;
 
 namespace OutBot.Classes
 {
-    public class Config
+    /// <summary>
+    /// Object used for parsing data from configuration files
+    /// </summary>
+    internal class Config
     {
+        /// <summary>
+        /// A discord bot authentication token
+        /// </summary>
         [JsonProperty("discordToken")]
-        public required string DiscordToken;
+        internal required string DiscordToken { get; init; }
 
+        /// <summary>
+        /// <inheritdoc cref="GlobalSettings"/>
+        /// </summary>
         [JsonProperty("globalSettings")]
-        public required globalSettings GlobalSettings;
+        internal required GlobalSettings GlobalSettings { get; init; }
 
+        /// <summary>
+        /// <inheritdoc cref="WelcomeMessage"/>
+        /// </summary>
         [JsonProperty("welcomeMessage")]
-        public required welcomeMessage WelcomeMessage;
+        internal required WelcomeMessage WelcomeMessage { get; init; }
     }
-    
-    public class globalSettings
+
+    /// <summary>
+    /// Collection of general settings
+    /// </summary>
+    internal class GlobalSettings
     {
+        /// <summary>
+        /// Discord server id that the bot will lay primary focus to
+        /// </summary>
         [JsonProperty("guild")]
-        public required ulong GuildId;
+        internal required ulong GuildId { get; init; }
     }
 
-    public class welcomeMessage
+    /// <summary>
+    /// Collection of settings for welcome messages
+    /// </summary>
+    internal class WelcomeMessage
     {
+        /// <summary>
+        /// determines if the welcome message feature is activated
+        /// </summary>
         [JsonProperty("enabled")]
-        public required bool IsEnabled;
+        internal required bool IsEnabled { get; init; }
 
+        /// <summary>
+        /// The id of a discord channel that will be used to send welcome and leave messages
+        /// </summary>
         [JsonProperty("channel")]
-        public required ulong ChannelId;
+        internal required ulong ChannelId { get; init; }
     }
 }
+#pragma warning restore SA1402
