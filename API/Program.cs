@@ -1,19 +1,45 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Reflection;
+using StreamTools_API.Classes.Configuration;
+using StreamTools_API.Classes.Exceptions;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+CorsSettings corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>() ??
+                            throw new ConfigurationException("Unable to parse CORS Settings from appsettings.json");
+
+StatInkSettings statInkSettings = builder.Configuration.GetSection("StatInkSettings").Get<StatInkSettings>() ??
+                                  throw new ConfigurationException(
+                                    "Unable to parse StatInk Settings from appsettings.json");
+
+builder.Services.AddSingleton(statInkSettings);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(options =>
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.AllowAnyOrigin();
-        });
+  c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 
-var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(optionsBuilder =>
+  {
+    optionsBuilder.WithOrigins(corsSettings.AllowedOrigins)
+      .WithMethods(corsSettings.AllowedMethods)
+      .WithHeaders(corsSettings.AllowedHeaders);
+  });
+});
 
-app.UseAuthorization();
+WebApplication app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+  app.UseSwagger();
+
+  app.UseSwaggerUI();
+}
 
 app.UseCors();
 
