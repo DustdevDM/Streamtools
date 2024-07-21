@@ -1,8 +1,20 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Reflection;
+using StreamTools_API.Classes.Configuration;
+using StreamTools_API.Classes.Exceptions;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
 CorsSettings corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>() ??
                             throw new ConfigurationException("Unable to parse CORS Settings from appsettings.json");
 
 builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+  c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -14,9 +26,14 @@ builder.Services.AddCors(options =>
   });
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
-app.UseAuthorization();
+if (app.Environment.IsDevelopment())
+{
+  app.UseSwagger();
+
+  app.UseSwaggerUI();
+}
 
 app.UseCors();
 
