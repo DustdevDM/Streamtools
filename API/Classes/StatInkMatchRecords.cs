@@ -6,7 +6,7 @@ namespace StreamTools_API.Classes
 #pragma warning disable SA1402 // File may only contain a single type
 
     /// <summary>
-    /// Interface representing TimeObjects used by the stat.ink API
+    /// Interface representing TimeObjects used by the statink API
     /// </summary>
     public interface ITimeObject
     {
@@ -45,10 +45,10 @@ namespace StreamTools_API.Classes
         Draw,
 
         /// <summary>
-        /// Result type when a match has been lost due to disconnects in an ranked match
+        /// Result type when a match has been lost due to disconnects in a ranked match
         /// </summary>
         [JsonProperty("exempted_lose")]
-        Exempted_lose,
+        ExemptedLose,
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ namespace StreamTools_API.Classes
         public required MatchResult Result { get; set; }
 
         /// <summary>
-        /// Startdate of a splatoon match
+        /// Start date of a splatoon match
         /// </summary>
         [JsonProperty("start_at")]
         public required StartAt StartDate { get; set; }
@@ -93,7 +93,7 @@ namespace StreamTools_API.Classes
         public required List<Player> BadGuys { get; set; }
 
         /// <summary>
-        /// Teamcolor of the own team
+        /// Team color of the own team
         /// </summary>
         [JsonProperty("our_team_color")]
         public required string GoodGuysTeamColor { get; set; }
@@ -105,7 +105,7 @@ namespace StreamTools_API.Classes
     public class Player
     {
         /// <summary>
-        /// Is the the entry the Player itself
+        /// Is the entry the Player itself
         /// </summary>
         [JsonProperty("me")]
         public bool? IsMe { get; set; }
@@ -123,7 +123,7 @@ namespace StreamTools_API.Classes
         public string? Name { get; set; }
 
         /// <summary>
-        /// Nicht eindeutige Tag Numer
+        /// Nicht eindeutige Tag Number
         /// </summary>
         [JsonProperty("number")]
         public string? Diskriminator { get; set; }
@@ -153,13 +153,13 @@ namespace StreamTools_API.Classes
         public int? DeathCount { get; set; }
 
         /// <summary>
-        /// Number of times the player uesed his special in the match
+        /// Number of times the player used his special in the match
         /// </summary>
         [JsonProperty("special")]
         public int? SpecialUsedCount { get; set; }
 
         /// <summary>
-        /// Number of terrains colored by the player
+        /// Number of terrain colored by the player
         /// </summary>
         [JsonProperty("inked")]
         public int? InkedPoints { get; set; }

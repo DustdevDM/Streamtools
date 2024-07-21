@@ -7,6 +7,12 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 CorsSettings corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>() ??
                             throw new ConfigurationException("Unable to parse CORS Settings from appsettings.json");
 
+StatInkSettings statInkSettings = builder.Configuration.GetSection("StatInkSettings").Get<StatInkSettings>() ??
+                                  throw new ConfigurationException(
+                                    "Unable to parse StatInk Settings from appsettings.json");
+
+builder.Services.AddSingleton(statInkSettings);
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
