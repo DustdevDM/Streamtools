@@ -1,14 +1,17 @@
 var builder = WebApplication.CreateBuilder(args);
+CorsSettings corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>() ??
+                            throw new ConfigurationException("Unable to parse CORS Settings from appsettings.json");
 
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.AllowAnyOrigin();
-        });
+  options.AddDefaultPolicy(optionsBuilder =>
+  {
+    optionsBuilder.WithOrigins(corsSettings.AllowedOrigins)
+      .WithMethods(corsSettings.AllowedMethods)
+      .WithHeaders(corsSettings.AllowedHeaders);
+  });
 });
 
 var app = builder.Build();
