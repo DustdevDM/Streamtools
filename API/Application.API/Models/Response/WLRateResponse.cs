@@ -1,4 +1,4 @@
-﻿namespace StreamTools_API.Classes.API
+﻿namespace Application.API.Models.Response
 {
     /// <summary>
     /// Response that represents the Winning Match Percentage of a Stat.inc query

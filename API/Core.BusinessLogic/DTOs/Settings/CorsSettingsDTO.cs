@@ -1,9 +1,9 @@
-﻿namespace StreamTools_API.Classes.Configuration;
+﻿namespace Core.BusinessLogic.DTOs.Settings;
 
 /// <summary>
 /// Config DTO used to parse appsettings values for cors settings
 /// </summary>
-public class CorsSettings
+public class CorsSettingsDTO
 {
   /// <summary>
   /// Allowed origin Values for Access-Control-Allow-Origin header

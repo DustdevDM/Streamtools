@@ -1,4 +1,4 @@
-﻿namespace StreamTools_API.Classes.Exceptions;
+﻿namespace Core.BusinessLogic.Exceptions;
 
 /// <summary>
 /// Exception that is thrown when configuration values are missing or illegal

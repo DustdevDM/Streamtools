@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Core.BusinessLogic.Enums;
+using Newtonsoft.Json;
 
-namespace StreamTools_API.Classes
+namespace Core.BusinessLogic.DTOs
 {
 #pragma warning disable SA1649 // File name should match first type name
 #pragma warning disable SA1402 // File may only contain a single type
@@ -48,13 +50,14 @@ namespace StreamTools_API.Classes
         /// Result type when a match has been lost due to disconnects in a ranked match
         /// </summary>
         [JsonProperty("exempted_lose")]
+        [EnumMember(Value = "exempted_lose")]
         ExemptedLose,
     }
 
     /// <summary>
     /// Response Object to parse relevant data from the stat.ink api
     /// </summary>
-    public class StatInkMatchRecords
+    public class StatInkMatchRecordsDTO
     {
         /// <summary>
         /// ID of a splatoon match data record
@@ -72,7 +75,7 @@ namespace StreamTools_API.Classes
         /// Instance of <see cref="MatchResult"/>
         /// </summary>
         [JsonProperty("result")]
-        public required MatchResult Result { get; set; }
+        public required StatInkQueryResult Result { get; set; }
 
         /// <summary>
         /// Start date of a splatoon match
