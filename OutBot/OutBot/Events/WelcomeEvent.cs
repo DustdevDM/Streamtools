@@ -7,7 +7,7 @@ namespace OutBot.Events
     /// <summary>
     /// Event handler to notify that members are joining the configured guild
     /// </summary>
-    internal abstract class WelcomeEvent
+    public class WelcomeEvent
     {
         private readonly ulong configuredGuildId;
         private readonly ulong configuredChannelId;
@@ -18,7 +18,7 @@ namespace OutBot.Events
         /// </summary>
         /// <param name="configManager">Instance of <see cref="ConfigService"/></param>
         /// <param name="imageService">Instance of <see cref="ImageService"/></param>
-        internal WelcomeEvent(ConfigService configManager, ImageService imageService)
+        public WelcomeEvent(ConfigService configManager, ImageService imageService)
         {
             this.configuredGuildId = configManager.Config.GlobalSettings.GuildId;
             this.configuredChannelId = configManager.Config.WelcomeMessage.ChannelId;
@@ -32,7 +32,7 @@ namespace OutBot.Events
         /// <exception cref="ConfigurationException">Thrown if the configured text channel for welcome messages
         /// could not be found</exception>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
-        internal async Task HandleEvent(SocketGuildUser user)
+        public async Task HandleEvent(SocketGuildUser user)
         {
             if (user.Guild.Id != this.configuredGuildId)
                 return;

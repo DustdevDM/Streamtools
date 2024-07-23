@@ -7,7 +7,7 @@ namespace OutBot.Events
     /// <summary>
     /// Event handler to notify that members are leaving the configured guild
     /// </summary>
-    internal abstract class GuildLeaveEvent
+    public class GuildLeaveEvent
     {
         private readonly ulong configuredGuildId;
         private readonly ulong configuredChannelId;
@@ -16,7 +16,7 @@ namespace OutBot.Events
         /// Initializes a new instance of the <see cref="GuildLeaveEvent"/> class.
         /// </summary>
         /// <param name="configManager">Instance of <see cref="ConfigService"/></param>
-        internal GuildLeaveEvent(ConfigService configManager)
+        public GuildLeaveEvent(ConfigService configManager)
         {
             this.configuredGuildId = configManager.Config.GlobalSettings.GuildId;
             this.configuredChannelId = configManager.Config.WelcomeMessage.ChannelId;
@@ -30,7 +30,7 @@ namespace OutBot.Events
         /// <returns><see cref="Task"/> representing the asynchronous operation</returns>
         /// <exception cref="ConfigurationException">Thrown if the configured text channel for welcome messages
         /// could not be found</exception>
-        internal Task HandleLeaveEvent(SocketGuild guild, SocketUser user)
+        public Task HandleLeaveEvent(SocketGuild guild, SocketUser user)
         {
             if (guild.Id != this.configuredGuildId)
                 return Task.CompletedTask;
@@ -47,12 +47,12 @@ namespace OutBot.Events
         /// <summary>
         /// Event delegate to handle banned guild users
         /// </summary>
-        /// <param name="guild"><see cref="SocketGuild"/> that the user was banned from</param>
         /// <param name="user"><see cref="SocketUser"/> that was banned form the guild</param>
-        /// <returns><see cref="Task"/> representing the asynchronous operation</returns
+        /// <param name="guild"><see cref="SocketGuild"/> that the user was banned from</param>
+        /// <returns><see cref="Task"/> representing the asynchronous operation</returns>
         /// <exception cref="ConfigurationException">Thrown if the configured text channel for welcome messages
         /// could not be found</exception>
-        internal Task HandleBannEvent(SocketUser user, SocketGuild guild)
+        public Task HandleBannEvent(SocketUser user, SocketGuild guild)
         {
             if (guild.Id != this.configuredGuildId)
                 return Task.CompletedTask;

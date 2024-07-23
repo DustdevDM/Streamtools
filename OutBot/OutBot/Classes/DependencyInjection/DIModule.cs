@@ -7,7 +7,7 @@ namespace OutBot.Classes.DependencyInjection
     /// <summary>
     /// Class to configure special cases in the dependency injection
     /// </summary>
-    internal class DiModule : NinjectModule
+    public class DiModule : NinjectModule
     {
         /// <summary>
         /// Loads dependency injection bindings
