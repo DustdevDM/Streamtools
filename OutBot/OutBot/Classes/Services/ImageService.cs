@@ -11,7 +11,7 @@ namespace OutBot.Classes.Services
     /// <summary>
     /// Helper class to create images containing dynamic content
     /// </summary>
-    internal abstract class ImageService
+    public class ImageService
     {
         private readonly HttpClient httpClient;
 
@@ -19,7 +19,7 @@ namespace OutBot.Classes.Services
         /// Initializes a new instance of the <see cref="ImageService"/> class.
         /// </summary>
         /// <param name="httpClient">Instance of <see cref="HttpClient"/></param>
-        internal ImageService(HttpClient httpClient)
+        public ImageService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
@@ -29,7 +29,7 @@ namespace OutBot.Classes.Services
         /// </summary>
         /// <param name="guildUser">User that joined a guild</param>
         /// <returns>Returns an async <see cref="Stream"/> containing the image</returns>
-        internal async Task<Stream> GenerateWelcomeImage(SocketGuildUser guildUser)
+        public async Task<Stream> GenerateWelcomeImage(SocketGuildUser guildUser)
         {
             using Image image = await Image.LoadAsync("Resources/WelcomeBannerBase.png");
 

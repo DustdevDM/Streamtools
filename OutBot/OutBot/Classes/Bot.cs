@@ -4,7 +4,7 @@ using OutBot.Classes.Services;
 
 namespace OutBot.Classes
 {
-    internal abstract class Bot
+    public class Bot
     {
         private readonly DiscordSocketClient discordSocketClient;
         private readonly ConfigService configManager;
@@ -16,7 +16,7 @@ namespace OutBot.Classes
         /// <param name="discordSocketClient">Instance of <see cref="discordSocketClient"/></param>
         /// <param name="configManager">Instance of <see cref="ConfigService"/></param>
         /// <param name="eventManager">Instance of <see cref="DiscordEventService"/></param>
-        internal Bot(DiscordSocketClient discordSocketClient, ConfigService configManager, DiscordEventService eventManager)
+        public Bot(DiscordSocketClient discordSocketClient, ConfigService configManager, DiscordEventService eventManager)
         {
             this.discordSocketClient = discordSocketClient;
             this.configManager = configManager;
@@ -28,7 +28,7 @@ namespace OutBot.Classes
         /// Executes the discord bot
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        internal async Task RunBot()
+        public async Task RunBot()
         {
             this.eventManager.RegisterEvents();
 

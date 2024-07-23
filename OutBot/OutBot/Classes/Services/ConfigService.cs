@@ -5,14 +5,14 @@ namespace OutBot.Classes.Services
     /// <summary>
     /// Helper class to read and cache configuration values
     /// </summary>
-    internal abstract class ConfigService
+    public class ConfigService
     {
         private Config? configCache;
 
         /// <summary>
         /// Instance of <see cref="Classes.Config"/>
         /// </summary>
-        internal Config Config => this.configCache ?? this.GetConfig();
+        public Config Config => this.configCache ?? this.GetConfig();
 
         /// <summary>
         /// Reads a config file and parses its content to a <see cref="Config"/> instance. Also caches the result for

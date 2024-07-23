@@ -6,7 +6,7 @@ namespace OutBot.Classes.Services
     /// <summary>
     /// Helper class to manage all discord socket related events
     /// </summary>
-    internal abstract class DiscordEventService
+    public class DiscordEventService
     {
         private readonly DiscordSocketClient discordSocketClient;
         private readonly ConfigService configService;
@@ -20,7 +20,7 @@ namespace OutBot.Classes.Services
         /// <param name="configService">Instance of <see cref="ConfigService"/></param>
         /// <param name="welcomeEvent">Instance of <see cref="WelcomeEvent"/></param>
         /// <param name="guildLeaveEvent">Instance of <see cref="GuildLeaveEvent"/></param>
-        internal DiscordEventService(DiscordSocketClient discordSocketClient, ConfigService configService, WelcomeEvent welcomeEvent, GuildLeaveEvent guildLeaveEvent)
+        public DiscordEventService(DiscordSocketClient discordSocketClient, ConfigService configService, WelcomeEvent welcomeEvent, GuildLeaveEvent guildLeaveEvent)
         {
             this.discordSocketClient = discordSocketClient;
             this.configService = configService;
@@ -31,7 +31,7 @@ namespace OutBot.Classes.Services
         /// <summary>
         /// Adds all events subscriptions between the discord socket events and the OutBot event delegates
         /// </summary>
-        internal void RegisterEvents()
+        public void RegisterEvents()
         {
             if (this.configService.Config.WelcomeMessage.IsEnabled)
             {
