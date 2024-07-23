@@ -30,10 +30,10 @@ namespace Application.API.Controller
     /// my statink profile
     /// </summary>
     /// <param name="statInkQueryBuilder">Instance of <see cref="IStatInkQueryBuilder"/></param>
-    /// <returns><see cref="WlRateResponse"/>Instance of <see cref="WlRateResponse"/></returns>
+    /// <returns><see cref="SplatoonStatsResponse"/>Instance of <see cref="SplatoonStatsResponse"/></returns>
     [HttpGet]
     [Route("Stats")]
-    public async Task<ActionResult<WlRateResponse>> WlStats(
+    public async Task<ActionResult<SplatoonStatsResponse>> WlStats(
       [FromServices] IStatInkQueryBuilder statInkQueryBuilder)
     {
       statInkQueryBuilder
@@ -50,7 +50,7 @@ namespace Application.API.Controller
         if (stats.totalMatches == 0)
           return this.NoContent();
 
-        return new WlRateResponse($"{stats.winPercentage}%", $"{stats.wonMatches}/{stats.totalMatches}", "#ffffff");
+        return new SplatoonStatsResponse($"{stats.winPercentage}%", $"{stats.wonMatches}/{stats.totalMatches}", "#ffffff");
       }
       catch (StatInkUserNotFoundException ex)
       {
