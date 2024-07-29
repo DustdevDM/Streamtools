@@ -51,6 +51,7 @@ namespace Application.API.Controller
           return this.NoContent();
 
         return new SplatoonStatsResponse($"{stats.winPercentage}%", $"{stats.wonMatches}/{stats.totalMatches}", "#ffffff");
+        return new SplatoonStatsResponse(winPercentage.ToString(CultureInfo.InvariantCulture), $"{stats.wonMatches}/{stats.totalMatches}");
       }
       catch (StatInkUserNotFoundException ex)
       {

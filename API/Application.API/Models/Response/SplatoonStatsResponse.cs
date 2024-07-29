@@ -10,12 +10,10 @@
         /// </summary>
         /// <param name="winPercentage">The percentage of matches that were won</param>
         /// <param name="wonMatches">The number of winning matches in relation to all matches</param>
-        /// <param name="splatfestColor">Color of the own splatfest team based on last match record</param>
-        public SplatoonStatsResponse(string winPercentage, string wonMatches, string? splatfestColor = null)
+        public SplatoonStatsResponse(string winPercentage, string wonMatches)
         {
             this.WinPercentage = winPercentage;
             this.WonMatches = wonMatches;
-            this.SplatfestColor = splatfestColor;
         }
 
         /// <summary>
@@ -27,10 +25,5 @@
         /// The number of winning matches in relation to all matches
         /// </summary>
         public string WonMatches { get; set; }
-
-        /// <summary>
-        /// Color of the own splatfest team based on last match record
-        /// </summary>
-        public string? SplatfestColor { get; set; }
     }
 }
