@@ -48,10 +48,37 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+          cache: true
       - name: Restore dependencies
         run: dotnet restore "API/StreamTools API.sln"
       - name: Build
         run: dotnet build "API/StreamTools API.sln" --no-restore -warnaserror
+
+  test-api:
+      name: API Test CI
+      runs-on: ubuntu-latest
+      needs: build-api
+
+      steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+      - name: Restore dependencies
+        run: dotnet restore "API/StreamTools API.sln"
+      - name: Build
+        run: dotnet build "API/StreamTools API.sln" --no-restore
+      - name: Test
+        run: dotnet test --logger trx --results-directory "TestResults-${{ github.run_id }}"
+      - name: Upload dotnet test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-results-${{ github.run_id }}
+          path: TestResults-${{ github.run_id }}
+
+
 
   build-discord-bot:
     name: Discord Bot build CI
