@@ -12,7 +12,7 @@ StatInkSettingsDTO statInkSettingsDto = builder.Configuration.GetSection("StatIn
                                   throw new ConfigurationException(
                                     "Unable to parse StatInk Settings from appsettings.json");
 
-DependenciesManager.addDependeciesToSerice(builder.Services);
+DependenciesManager.AddDependenciesToService(builder.Services);
 
 builder.Services.AddSingleton(statInkSettingsDto);
 
