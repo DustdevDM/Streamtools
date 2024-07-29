@@ -1,17 +1,20 @@
 using System.Reflection;
-using StreamTools_API.Classes.Configuration;
-using StreamTools_API.Classes.Exceptions;
+using Application.API;
+using Core.BusinessLogic.DTOs.Settings;
+using Core.BusinessLogic.Exceptions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-CorsSettings corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>() ??
+CorsSettingsDTO corsSettingsDto = builder.Configuration.GetSection("CorsSettings").Get<CorsSettingsDTO>() ??
                             throw new ConfigurationException("Unable to parse CORS Settings from appsettings.json");
 
-StatInkSettings statInkSettings = builder.Configuration.GetSection("StatInkSettings").Get<StatInkSettings>() ??
+StatInkSettingsDTO statInkSettingsDto = builder.Configuration.GetSection("StatInkSettings").Get<StatInkSettingsDTO>() ??
                                   throw new ConfigurationException(
                                     "Unable to parse StatInk Settings from appsettings.json");
 
-builder.Services.AddSingleton(statInkSettings);
+DependenciesManager.AddDependenciesToService(builder.Services);
+
+builder.Services.AddSingleton(statInkSettingsDto);
 
 builder.Services.AddControllers();
 
@@ -26,9 +29,9 @@ builder.Services.AddCors(options =>
 {
   options.AddDefaultPolicy(optionsBuilder =>
   {
-    optionsBuilder.WithOrigins(corsSettings.AllowedOrigins)
-      .WithMethods(corsSettings.AllowedMethods)
-      .WithHeaders(corsSettings.AllowedHeaders);
+    optionsBuilder.WithOrigins(corsSettingsDto.AllowedOrigins)
+      .WithMethods(corsSettingsDto.AllowedMethods)
+      .WithHeaders(corsSettingsDto.AllowedHeaders);
   });
 });
 

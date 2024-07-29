@@ -1,15 +1,10 @@
-﻿namespace StreamTools_API.Classes.Configuration;
+﻿namespace Core.BusinessLogic.DTOs.Settings;
 
 /// <summary>
 /// Config DTO used to parse appsettings values for stat ink settings
 /// </summary>
-public class StatInkSettings
+public class StatInkSettingsDTO
 {
-  /// <summary>
-  /// API Token used to query the stat ink API
-  /// </summary>
-  public required string ApiToken { get; init; }
-
   /// <summary>
   /// Stat.ink username that will be the query goal to fetch data
   /// </summary>

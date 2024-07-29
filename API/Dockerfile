@@ -4,13 +4,13 @@ WORKDIR /App
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore "StreamTools API.sln"
+RUN dotnet restore "Application.API.sln"
 # Build and publish a release
-RUN dotnet publish "StreamTools API.sln" -c Release -o out
+RUN dotnet publish "Application.API.sln" -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "StreamTools API.dll"]
+ENTRYPOINT ["dotnet", "Application.API.dll"]
