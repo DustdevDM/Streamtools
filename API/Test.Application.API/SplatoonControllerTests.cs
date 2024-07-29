@@ -1,6 +1,5 @@
 using System.Globalization;
 using Application.API.Controller;
-using Application.API.Models.Response;
 using Core.BusinessLogic.Builder;
 using Core.BusinessLogic.Services;
 using FakeItEasy;
