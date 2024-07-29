@@ -1,3 +1,4 @@
+using System.Globalization;
 using Application.API.Models.Response;
 using Core.BusinessLogic.Builder;
 using Core.BusinessLogic.Enums;
@@ -44,13 +45,14 @@ namespace Application.API.Controller
 
       try
       {
-        (double totalMatches, double wonMatches, double winPercentage) stats =
+        (int totalMatches, int wonMatches) stats =
           await this.statInkService.CalculateWinLooseRate(statInkQueryBuilder, true);
 
         if (stats.totalMatches == 0)
           return this.NoContent();
 
-        return new SplatoonStatsResponse($"{stats.winPercentage}%", $"{stats.wonMatches}/{stats.totalMatches}", "#ffffff");
+        double winPercentage = Math.Round((float)stats.wonMatches / stats.totalMatches * 100, 2);
+
         return new SplatoonStatsResponse(winPercentage.ToString(CultureInfo.InvariantCulture), $"{stats.wonMatches}/{stats.totalMatches}");
       }
       catch (StatInkUserNotFoundException ex)

@@ -10,7 +10,7 @@ public interface IStatInkService
   /// <summary>
   /// Calculates the win to lose ratio by querying battle log data
   /// </summary>
-  public Task<(double, double, double)> CalculateWinLooseRate(
+  public Task<(int, int)> CalculateWinLooseRate(
     IStatInkQueryBuilder statInkQueryBuilder,
     bool ignoreDisconnects);
 }

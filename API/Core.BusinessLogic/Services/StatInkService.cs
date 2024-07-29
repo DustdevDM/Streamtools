@@ -10,7 +10,7 @@ namespace Core.BusinessLogic.Services;
 
 public class StatInkService(HttpClient httpClient, StatInkSettingsDTO statInkSettings) : IStatInkService
 {
-  public async Task<(double, double, double)> CalculateWinLooseRate(
+  public async Task<(int, int)> CalculateWinLooseRate(
     IStatInkQueryBuilder statInkQueryBuilder,
     bool ignoreDisconnects)
   {
@@ -48,11 +48,10 @@ public class StatInkService(HttpClient httpClient, StatInkSettingsDTO statInkSet
         .ToList();
     }
 
-    double totalMatches = matchRecords.Count;
-    double wonMatches = matchRecords.Count(match => match.Result == StatInkQueryResult.Victory);
-    double winPercentage = Math.Round((wonMatches / totalMatches) * 100, 2);
+    int totalMatches = matchRecords.Count;
+    int wonMatches = matchRecords.Count(match => match.Result == StatInkQueryResult.Victory);
 
-    return (totalMatches, wonMatches, winPercentage);
+    return (totalMatches, wonMatches);
     }
     catch (Exception ex)
     {

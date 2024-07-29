@@ -1,0 +1,58 @@
+using System.Globalization;
+using Application.API.Controller;
+using Application.API.Models.Response;
+using Core.BusinessLogic.Builder;
+using Core.BusinessLogic.Services;
+using FakeItEasy;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Test.Application.API;
+
+public class SplatoonControllerTests
+{
+
+  [Fact]
+  public async void WlStats_Returns_SplatoonStatsResponse_With_Correct_Calculated_Win_Percentage()
+  {
+    // Arrange
+    IStatInkService fakeStatInkService = A.Fake<IStatInkService>();
+
+    Random random = new ();
+    int randomWonMatches =  random.Next(0, 100);
+    int randomTotalMatches =  random.Next(randomWonMatches, 101);
+    string calculatedRandomResult = Math.Round((float)randomWonMatches / randomTotalMatches * 100, 2).ToString(CultureInfo.InvariantCulture);
+    (int, int) fakeStatInkServiceResult = (randomTotalMatches, randomWonMatches);
+
+    A.CallTo(fakeStatInkService).WithReturnType<Task<(int, int)>>().Returns(Task.FromResult(fakeStatInkServiceResult));
+
+    SplatoonController controller = new (fakeStatInkService);
+    StatInkQueryBuilder cleanStatInkQueryBuilder = new ();
+
+    // Act
+    var actionResult = await controller.WlStats(cleanStatInkQueryBuilder);
+
+    // Assert
+    Assert.NotNull(actionResult.Value);
+    Assert.Equal(actionResult.Value?.WinPercentage, calculatedRandomResult.ToString());
+  }
+
+  [Fact]
+  public async void WlStats_Returns_204_If_There_Are_No_Recorded_Matches()
+  {
+    // Arrange
+    IStatInkService fakeStatInkService = A.Fake<IStatInkService>();
+    IStatInkQueryBuilder fakeStatInkQueryBuilder = A.Fake<IStatInkQueryBuilder>();
+    (int, int) fakeStatInkServiceResult = (0, 0);
+
+    A.CallTo(fakeStatInkService).WithReturnType<Task<(int, int)>>().Returns(Task.FromResult(fakeStatInkServiceResult));
+
+    SplatoonController controller = new (fakeStatInkService);
+    StatInkQueryBuilder cleanStatInkQueryBuilder = new ();
+
+    // Act
+    var actionResult = await controller.WlStats(cleanStatInkQueryBuilder);
+
+    // Assert
+    Assert.IsType<NoContentResult>(actionResult.Result);
+  }
+}
