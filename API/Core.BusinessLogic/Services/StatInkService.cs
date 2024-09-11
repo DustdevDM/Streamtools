@@ -1,20 +1,19 @@
 ﻿using System.Net;
 using Core.BusinessLogic.Builder;
 using Core.BusinessLogic.DTOs;
-using Core.BusinessLogic.DTOs.Settings;
-using Core.BusinessLogic.Enums;
 using Core.BusinessLogic.Exceptions;
 using Newtonsoft.Json;
 
 namespace Core.BusinessLogic.Services;
 
-public class StatInkService(HttpClient httpClient, StatInkSettingsDTO statInkSettings) : IStatInkService
+public class StatInkService(HttpClient httpClient) : IStatInkService
 {
-  public async Task<(int, int)> CalculateWinLooseRate(
+  public async Task<List<StatInkMatchRecordsDTO>> GetStatInkMatchRecords(
+    string username,
     IStatInkQueryBuilder statInkQueryBuilder,
     bool ignoreDisconnects)
   {
-    string baseUrl = $"https://stat.ink/@{statInkSettings.StatisticsUsername}/spl3/index.json";
+    string baseUrl = $"https://stat.ink/@{username}/spl3/index.json";
     Dictionary<string, string?> filters = statInkQueryBuilder.Build();
     string uri = $"{baseUrl}?{string.Join("&", filters.Where(filter => filter.Value != null).Select(filter => $"{filter.Key}={filter.Value}"))}";
 
@@ -22,7 +21,7 @@ public class StatInkService(HttpClient httpClient, StatInkSettingsDTO statInkSet
 
     if (httpResponse.StatusCode == HttpStatusCode.NotFound)
     {
-      throw new StatInkUserNotFoundException($"{statInkSettings.StatisticsUsername} cant be found on stat.ink");
+      throw new StatInkUserNotFoundException($"{username} cant be found on stat.ink");
     }
 
     if (!httpResponse.IsSuccessStatusCode)
@@ -48,10 +47,7 @@ public class StatInkService(HttpClient httpClient, StatInkSettingsDTO statInkSet
         .ToList();
     }
 
-    int totalMatches = matchRecords.Count;
-    int wonMatches = matchRecords.Count(match => match.Result == StatInkQueryResult.Victory);
-
-    return (totalMatches, wonMatches);
+    return matchRecords;
     }
     catch (Exception ex)
     {
