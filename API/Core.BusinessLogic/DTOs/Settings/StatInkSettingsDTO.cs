@@ -3,7 +3,7 @@
 /// <summary>
 /// Config DTO used to parse appsettings values for stat ink settings
 /// </summary>
-public class StatInkSettingsDTO
+public class StatInkSettingsDto
 {
   /// <summary>
   /// Stat.ink username that will be the query goal to fetch data

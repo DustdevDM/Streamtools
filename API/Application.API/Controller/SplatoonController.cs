@@ -80,7 +80,7 @@ namespace Application.API.Controller
     /// <returns><see cref="SplatfestStatsResponse"/></returns>
     [HttpGet]
     [Route("Splatfest")]
-    public async Task<ActionResult<SplatoonStatsResponse>> Splatfest(
+    public async Task<ActionResult<SplatfestStatsResponse>> Splatfest(
       [FromServices] IStatInkQueryBuilder statInkQueryBuilder)
     {
       statInkQueryBuilder
