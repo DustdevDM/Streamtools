@@ -1,6 +1,7 @@
 using System.Globalization;
 using Application.API.Controller;
 using Core.BusinessLogic.Builder;
+using Core.BusinessLogic.DTOs.Settings;
 using Core.BusinessLogic.Services;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ public class SplatoonControllerTests
   {
     // Arrange
     IStatInkService fakeStatInkService = A.Fake<IStatInkService>();
+    StatInkSettingsDto statInkSettings = new (){ StatisticsUsername = "fakeUsername" };
 
     Random random = new ();
     int randomWonMatches =  random.Next(0, 100);
@@ -24,7 +26,7 @@ public class SplatoonControllerTests
 
     A.CallTo(fakeStatInkService).WithReturnType<Task<(int, int)>>().Returns(Task.FromResult(fakeStatInkServiceResult));
 
-    SplatoonController controller = new (fakeStatInkService);
+    SplatoonController controller = new (fakeStatInkService, statInkSettings);
     StatInkQueryBuilder cleanStatInkQueryBuilder = new ();
 
     // Act
@@ -32,7 +34,7 @@ public class SplatoonControllerTests
 
     // Assert
     Assert.NotNull(actionResult.Value);
-    Assert.Equal(actionResult.Value?.WinPercentage, calculatedRandomResult.ToString());
+    Assert.Equal(actionResult.Value?.WinPercentage, calculatedRandomResult);
   }
 
   [Fact]
@@ -40,12 +42,12 @@ public class SplatoonControllerTests
   {
     // Arrange
     IStatInkService fakeStatInkService = A.Fake<IStatInkService>();
-    IStatInkQueryBuilder fakeStatInkQueryBuilder = A.Fake<IStatInkQueryBuilder>();
+    StatInkSettingsDto statInkSettings = new (){ StatisticsUsername = "fakeUsername" };
     (int, int) fakeStatInkServiceResult = (0, 0);
 
     A.CallTo(fakeStatInkService).WithReturnType<Task<(int, int)>>().Returns(Task.FromResult(fakeStatInkServiceResult));
 
-    SplatoonController controller = new (fakeStatInkService);
+    SplatoonController controller = new (fakeStatInkService, statInkSettings);
     StatInkQueryBuilder cleanStatInkQueryBuilder = new ();
 
     // Act

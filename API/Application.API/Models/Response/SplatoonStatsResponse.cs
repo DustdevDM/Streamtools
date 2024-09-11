@@ -1,7 +1,7 @@
 ﻿namespace Application.API.Models.Response
 {
     /// <summary>
-    /// Response that represents the Winning Match Percentage of a Stat.inc query
+    /// DTO that represents the Winning Match Percentage of a Stat.inc query
     /// </summary>
     public class SplatoonStatsResponse
     {

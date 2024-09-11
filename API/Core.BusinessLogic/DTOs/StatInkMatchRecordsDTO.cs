@@ -100,6 +100,19 @@ namespace Core.BusinessLogic.DTOs
         /// </summary>
         [JsonProperty("our_team_color")]
         public required string GoodGuysTeamColor { get; set; }
+
+        /// <summary>
+        /// Splatfest team choice of the own team.
+        /// Only present if the match happend in a splatfest
+        /// </summary>
+        [JsonProperty("their_team_theme")]
+        public string? GoodGuysSplatfestThemeName { get; set; }
+
+        /// <summary>
+        /// Clout value that was earned this match
+        /// </summary>
+        [JsonProperty("clout_change")]
+        public int? CloutChange { get; set; }
     }
 
     /// <summary>

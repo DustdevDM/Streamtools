@@ -1,4 +1,5 @@
 ﻿using Core.BusinessLogic.Builder;
+using Core.BusinessLogic.DTOs;
 
 namespace Core.BusinessLogic.Services;
 
@@ -8,9 +9,11 @@ namespace Core.BusinessLogic.Services;
 public interface IStatInkService
 {
   /// <summary>
-  /// Calculates the win to lose ratio by querying battle log data
+  /// Returns a <see cref="List{T}"/> of match results based on the provided query builder
   /// </summary>
-  public Task<(int, int)> CalculateWinLooseRate(
+  public Task<List<StatInkMatchRecordsDTO>> GetStatInkMatchRecords(
+    string username,
     IStatInkQueryBuilder statInkQueryBuilder,
     bool ignoreDisconnects);
 }
+
