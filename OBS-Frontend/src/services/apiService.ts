@@ -4,7 +4,7 @@ import type SplatoonStats from '../types/SplatoonStats'
 import type SplatoonSplatfest from '@/types/SplatoonSplatfest'
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:5047',
+  baseURL: 'https://streamtools.dustdev.de/api',
   headers: {
     'Content-Type': 'application/json'
   }
