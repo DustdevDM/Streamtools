@@ -92,7 +92,7 @@ namespace Application.API.Controller
       try
       {
         var matchRecords =
-          await this.statInkService.GetStatInkMatchRecords(this.statInkSettings.StatisticsUsername, statInkQueryBuilder, true);
+          await this.statInkService.GetStatInkMatchRecords(this.statInkSettings.StatisticsUsername, statInkQueryBuilder, false);
 
         if (matchRecords.Count == 0)
           return this.NoContent();

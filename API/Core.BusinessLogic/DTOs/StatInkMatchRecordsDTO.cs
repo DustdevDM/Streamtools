@@ -105,7 +105,7 @@ namespace Core.BusinessLogic.DTOs
         /// Splatfest team choice of the own team.
         /// Only present if the match happend in a splatfest
         /// </summary>
-        [JsonProperty("their_team_theme")]
+        [JsonProperty("our_team_theme")]
         public string? GoodGuysSplatfestThemeName { get; set; }
 
         /// <summary>
