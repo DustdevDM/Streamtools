@@ -68,7 +68,7 @@
 }
 .v-enter-active {
   transition: opacity 0.5s ease;
-  transition-delay: 0.5s;
+  transition-delay: 0.6s;
 }
 .v-leave-active {
   transition: opacity 0.5s ease;
