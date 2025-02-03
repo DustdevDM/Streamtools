@@ -1,15 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+ARG TARGETARCH
 WORKDIR /App
 
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore "StreamTools API.sln"
+RUN dotnet restore -a $TARGETARCH "StreamTools API.sln"
 # Build and publish a release
-RUN dotnet publish "Application.API/Application.API.csproj" -c Release -o out
+RUN dotnet publish --no-restore -a $TARGETARCH -c Release -o out "Application.API/Application.API.csproj"
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/out .
 EXPOSE 8080

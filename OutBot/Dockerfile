@@ -1,15 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+ARG TARGETARCH
 WORKDIR /App
 
 # Copy everything
 COPY . ./
 # Restore as distinct layers
-RUN dotnet restore "OutBot.sln"
+RUN dotnet restore -a $TARGETARCH "OutBot.sln"
 # Build and publish a release
-RUN dotnet build "OutBot.sln" -c Release
+RUN dotnet publish -a $TARGETARCH --no-restore "OutBot.sln" -c Release
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
 
 #install required font
 COPY ./OutBot/Resources/Rubik-Bold.ttf /usr/share/fonts/

@@ -1,4 +1,4 @@
-FROM node:20.16 AS build-env
+FROM --platform=$BUILDPLATFORM node:20.16 AS build-env
 
 WORKDIR /App
 COPY package.json package-lock.json ./
