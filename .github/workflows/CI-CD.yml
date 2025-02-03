@@ -54,11 +54,11 @@ jobs:
         run: dotnet build "API/StreamTools API.sln" --no-restore -warnaserror
 
   test-api:
-      name: API Test CI
-      runs-on: ubuntu-latest
-      needs: build-api
+    name: API Test CI
+    runs-on: ubuntu-latest
+    needs: build-api
 
-      steps:
+    steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -76,8 +76,6 @@ jobs:
         with:
           name: dotnet-results-${{ github.run_id }}
           path: TestResults-${{ github.run_id }}
-
-
 
   build-discord-bot:
     name: Discord Bot build CI
@@ -135,6 +133,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:API"
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/dustdevdm/streamtools-api:latest
 
@@ -158,6 +157,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:OutBot"
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/dustdevdm/outbot:latest
 
@@ -181,5 +181,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "{{defaultContext}}:OBS-Frontend"
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/dustdevdm/streamtools-frontend:latest
